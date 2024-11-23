@@ -1,61 +1,73 @@
-function addTask(){
-  var taskInput =  document.getElementById("new-task")
-  var taskList = document.getElementById("taskList")
+function addTask() {
+  const taskInput = document.getElementById("new-task");
+  const taskList = document.getElementById("task-list");
 
-  if(taskInput.value===""){
-    alert("Please enter the Task")
-    return
+  if (taskInput.value === "") {
+    alert("Please enter the Task");
+    return;
   }
 
-  var listItems = document.createElement('li')
-  
-  var taskText = document.createElement("span");
+  const listItems = document.createElement("li");
+
+  const taskText = document.createElement("p");
+  taskText.classList.add("task");
   taskText.innerText = taskInput.value;
-  taskText.contentEditable = false; 
+  taskText.contentEditable = false;
 
-  var buttonContainer = document.createElement('div')
-  buttonContainer.className = 'task-button'
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "task-button";
 
-  var deleteButton = document.createElement('button')
-  deleteButton.innerText = 'Delete'
-  deleteButton.onclick = function(){
-    taskList.removeChild(listItems)
-  }
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete");
+  deleteButton.innerHTML = `
+  <svg height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+       viewBox="0 0 512 512" xml:space="preserve">
+      <circle style="fill:#fff;" cx="256" cy="256" r="256"/>
+      <path style="fill:#fff;" d="M256,0v512c141.385,0,256-114.615,256-256S397.385,0,256,0z"/>
+      <polygon style="fill:#272727;" points="365.904,184.885 327.115,146.096 256,217.211 184.885,146.096 146.096,184.885 217.211,256 
+          146.096,327.115 184.885,365.904 256,294.789 327.115,365.904 365.904,327.115 294.789,256 "/>
+      <polygon style="fill:#272727;" points="365.904,184.885 327.115,146.096 256,217.211 256,294.789 327.115,365.904 365.904,327.115 
+          294.789,256 "/>
+  </svg>`;
+  deleteButton.onclick = function () {
+    taskList.removeChild(listItems);
+  };
 
-  var completeButton = document.createElement('button')
-  completeButton.innerText = 'Complete'
-  completeButton.onclick = function(){
-    taskText.classList.toggle('Complete')
-  }
+  const completeButton = document.createElement("input");
+  completeButton.type = "checkbox";
+  completeButton.onclick = function () {
+    taskText.classList.toggle("complete");
+  };
 
-  var editButton = document.createElement("button");
+  const editButton = document.createElement("button");
+  editButton.classList.add("edit");
   editButton.innerText = "Edit";
   editButton.onclick = function () {
     if (editButton.innerText === "Edit") {
-      taskText.contentEditable = true
-      taskText.focus()
+      taskText.contentEditable = true;
+      taskText.focus();
 
-      var range = document.createRange();
-      var sel = window.getSelection();
+      const range = document.createRange();
+      const sel = window.getSelection();
       range.selectNodeContents(taskText);
       range.collapse(false);
       sel.removeAllRanges();
       sel.addRange(range);
-      
-      editButton.innerText = "Save"
+
+      editButton.innerText = "Save";
     } else {
-      taskText.contentEditable = false
-      editButton.innerText = "Edit"
+      taskText.contentEditable = false;
+      editButton.innerText = "Edit";
     }
-  }
+  };
 
-  buttonContainer.appendChild(deleteButton)
-  buttonContainer.appendChild(completeButton)
-  buttonContainer.appendChild(editButton)
+  buttonContainer.appendChild(editButton);
+  buttonContainer.appendChild(deleteButton);
 
-  listItems.appendChild(taskText)
-  listItems.appendChild(buttonContainer)
-  taskList.appendChild(listItems)
+  listItems.appendChild(completeButton);
+  listItems.appendChild(taskText);
+  listItems.appendChild(buttonContainer);
+  taskList.appendChild(listItems);
 
-taskInput.value=''
+  taskInput.value = "";
 }
