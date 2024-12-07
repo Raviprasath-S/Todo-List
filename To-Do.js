@@ -1,9 +1,24 @@
-function addTask() {
-  const taskInput = document.getElementById("new-task");
-  const taskList = document.getElementById("task-list");
+const taskInput = document.getElementById("new-task");
+const taskList = document.getElementById("task-list");
+const popupElement = document.querySelector(".popup-wrapper");
 
+taskInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    addTask();
+  }
+});
+
+function addTask() {
   if (taskInput.value === "") {
-    alert("Please enter the Task");
+    // alert("Please enter the Task");
+    popupElement.classList.add("warning");
+    taskInput.blur();
+    popupElement.querySelector("button").addEventListener("click", () => {
+      if (popupElement.classList.contains("warning")) {
+        popupElement.classList.remove("warning");
+        taskInput.focus();
+      }
+    });
     return;
   }
 
